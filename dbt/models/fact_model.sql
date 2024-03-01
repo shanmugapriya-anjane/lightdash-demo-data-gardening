@@ -10,14 +10,14 @@ SELECT
     ord.partner_id AS partner_id,
     req.request_id AS request_id,
     usr.user_id,
-    bsk.ordered_product_skus AS sku,
-    prd.product_name AS product_name,
-    prd.price_currency AS currency,
-    bsk.price_amount AS item_price,
+    --bsk.ordered_product_skus AS sku,
+    --prd.product_name AS product_name,
+    --prd.price_currency AS currency,
+    bsk.item_price AS item_price,
     bsk.basket_total::decimal AS basket_total,
     ord.order_date AS order_date,
     ord.profit::decimal AS profit,
-    (bsk.price_amount::decimal * prt.partner_commission::decimal) AS item_profit,
+    (bsk.item_price::decimal * prt.partner_commission::decimal) AS item_profit,
     
     prt.partner_name AS partner_name,
     prt.partner_commission AS partner_commission,
@@ -36,21 +36,21 @@ SELECT
 
     -- Metrics
     COUNT(DISTINCT bsk.basket_item_id) AS basket_item_count,
-    SUM(bsk.price_amount::decimal) AS total_item_price,
-    AVG(bsk.price_amount::decimal) AS avg_item_price,
-    MAX(bsk.price_amount::decimal) AS max_item_price,
-    MIN(bsk.price_amount::decimal) AS min_item_price,
+    SUM(bsk.item_price::decimal) AS total_item_price,
+    AVG(bsk.item_price::decimal) AS avg_item_price,
+    MAX(bsk.item_price::decimal) AS max_item_price,
+    MIN(bsk.item_price::decimal) AS min_item_price,
     SUM(bsk.basket_total::decimal) AS total_basket_amount,
     AVG(bsk.basket_total::decimal) AS avg_basket_amount,
     MAX(bsk.basket_total::decimal) AS max_basket_amount,
     MIN(bsk.basket_total::decimal) AS min_basket_amount
 
 FROM
-    {{ref('dbt_baskets_stg')}} bsk
+    {{ref('dbt_baskets')}} bsk
+--LEFT JOIN
+   -- products prd ON bsk.ordered_product_skus::VARCHAR = prd.sku::VARCHAR
 LEFT JOIN
-    products prd ON bsk.ordered_product_skus::VARCHAR = prd.sku::VARCHAR
-LEFT JOIN
-   {{ref('dbt_orders_stg')}} ord ON bsk.order_id = ord.order_id
+   {{ref('dbt_orders')}} ord ON bsk.order_id = ord.order_id
 LEFT JOIN
     partners prt ON ord.partner_id = prt.partner_id
 LEFT JOIN
@@ -62,10 +62,10 @@ GROUP BY
     bsk.basket_item_id,
     ord.partner_id ,
     usr.user_id,
-    bsk.ordered_product_skus,
-    prd.product_name,
-    prd.price_currency,
-    bsk.price_amount,
+    --bsk.ordered_product_skus,
+   -- prd.product_name,
+   -- prd.price_currency,
+    bsk.item_price,
     bsk.basket_total,
     ord.order_date,
     ord.profit,
