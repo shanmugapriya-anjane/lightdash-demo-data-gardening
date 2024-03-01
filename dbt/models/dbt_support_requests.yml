@@ -33,3 +33,6 @@ models:
         average_of_feedback_rating:
           type: average
           label: Average feedback rating
+  - name: basket_total
+    description: 'total of basket.'
+          
