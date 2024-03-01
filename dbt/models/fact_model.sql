@@ -46,17 +46,17 @@ SELECT
     MIN(bsk.basket_total::decimal) AS min_basket_amount
 
 FROM
-    baskets bsk
+    {{ref('dbt_baskets_stg')}} bsk
 LEFT JOIN
     products prd ON bsk.ordered_product_skus::VARCHAR = prd.sku::VARCHAR
 LEFT JOIN
-   orders ord ON bsk.order_id = ord.order_id
+   {{ref('dbt_orders_stg')}} ord ON bsk.order_id = ord.order_id
 LEFT JOIN
     partners prt ON ord.partner_id = prt.partner_id
 LEFT JOIN
-   users usr ON ord.user_id = usr.user_id
+   dbt_users usr ON ord.user_id = usr.user_id
 LEFT JOIN
-   support_requests req ON req.order_id = ord.order_id
+   dbt_support_requests req ON req.order_id = ord.order_id
 GROUP BY
     bsk.order_id,
     bsk.basket_item_id,
