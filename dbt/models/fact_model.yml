@@ -6,7 +6,7 @@ models:
     label: fact_join
     joins:
       - join: orders  
-        sql_on: ${dbt_orders.order_id} = ${dbt_basket.order_id}
+        sql_on: ${dbt_orders.order_id} = ${dbt_baskets.order_id}
   columns:
   - name:  basket_item_id 
     description: 'basket item id'
