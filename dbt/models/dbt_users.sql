@@ -3,5 +3,5 @@ SELECT user_id,
   created_date,
   browser,
   shipping_address
-FROM thyme.users
+FROM {{ref('users')}}
 ORDER BY CAST(user_id AS int) ASC

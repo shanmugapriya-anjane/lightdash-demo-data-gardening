@@ -13,8 +13,8 @@ SELECT bsk.order_id,
   ord.partner_id,
   prt.partner_name,
   prt.partner_commission
-FROM thyme.baskets bsk
-  LEFT JOIN thyme.products prd ON ordered_product_skus::VARCHAR = prd.sku::VARCHAR
-  LEFT JOIN thyme.orders ord ON bsk.order_id = ord.order_id
-  LEFT JOIN thyme.partners prt ON ord.partner_id = prt.partner_id
+FROM {{ref('baskets')}} bsk
+  LEFT JOIN {{ref('products')}} prd ON ordered_product_skus::VARCHAR = prd.sku::VARCHAR
+  LEFT JOIN {{ref('orders')}} ord ON bsk.order_id = ord.order_id
+  LEFT JOIN {{ref('partners')}} prt ON ord.partner_id = prt.partner_id
 ORDER BY bsk.basket_item_id::int ASC
