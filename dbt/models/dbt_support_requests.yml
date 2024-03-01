@@ -34,12 +34,12 @@ models:
           type: average
           label: Average feedback rating
   - name: basket_total
-    description: 'total of basket.'
+    description: 'sum of basket.'
     meta:
       metrics:
         sum_of_basket_total:  
-        type: sum
-        label: sum of baskettotal    
+          type: sum
+          label: sum of baskettotal    
   - name: profit
     description: 'profit .'
           
