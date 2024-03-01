@@ -10,3 +10,10 @@ models:
         count_distinct_basket_item_id:
           type: count_distinct
           label: distinct total basket item
+  - name: item_price
+    description: 'price of basket item'
+    meta:
+      metrics:
+        sum_of_item_price:
+           type: sum
+                 
